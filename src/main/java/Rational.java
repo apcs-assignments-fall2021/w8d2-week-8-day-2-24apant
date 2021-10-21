@@ -25,33 +25,61 @@ public class Rational {
     // 4) Return your new Rational variable
     // (When you write the simplify method later on, you should
     // also call it in this method to return the simplified result)
+    public static int findLCM(int a, int b){
+        int max = a * b;
+        int smallestNum = 0;
+        if(a < b || a == b){
+            smallestNum = a;
+        }
+        else{
+            smallestNum = b;
+        }
+        for (int i = 0; i < max; i+=smallestNum){
+           if (i != 0 && (i % a == 0 && i % b == 0)){
+               return i;
+           }
+        }
+        return a * b;
+    }
     public static Rational add(Rational r, Rational s) {
         // REPLACE WITH YOUR CODE HERE
-        return null;
+        int Lcm = findLCM(r.denominator, s.denominator);
+        Rational newR = new Rational(r.numerator * (Lcm / r.denominator), r.denominator * (Lcm / r.denominator));
+        Rational newS = new Rational(s.numerator * (Lcm / s.denominator), s.denominator * (Lcm / s.denominator));
+
+        return simplify(new Rational(newR.numerator + newS.numerator, newR.denominator));
     }
 
     // This method takes two Rationals, subtracts thems up, 
     // and returns a Rational equal to the difference
     public static Rational subtract(Rational r, Rational s) {
-        // REPLACE WITH YOUR CODE HERE
-        return null;
+        int Lcm = findLCM(r.denominator, s.denominator);
+        Rational newR = new Rational(r.numerator * (Lcm / r.denominator), r.denominator * (Lcm / r.denominator));
+        Rational newS = new Rational(s.numerator * (Lcm / s.denominator), s.denominator * (Lcm / s.denominator));
+
+        return  simplify(new Rational(newR.numerator - newS.numerator, newR.denominator));
     }
     
     public static Rational multiply(Rational r, Rational s) {
         // REPLACE WITH YOUR CODE HERE
-        return null;
+        return simplify(new Rational(r.numerator * s.numerator, r.denominator * s.denominator));
     }
     
     public static Rational divide(Rational r, Rational s) {
         // REPLACE WITH YOUR CODE HERE
-        return null;
+        return simplify(new Rational(r.numerator * s.denominator, r.denominator * s.numerator));
     }
 
     // Finds the greatest common factor between a and b
     // To find the greatest common factor, find the largest number x
     // such that a and b are both multiples of x
     public static int greatestCommonFactor(int a, int b){
-        // REPLACE WITH YOUR CODE HERE
+        for (int i = a; i >= 0; i--) {
+            if (a % i == 0 && b % i == 0){
+                return i;
+            }
+
+        }
         return 1;
     }
 
@@ -62,7 +90,8 @@ public class Rational {
     //      simplify(1/2) => 1/2
     public static Rational simplify(Rational r) {
         // REPLACE WITH YOUR CODE HERE
-        return null;
+        int gcf = greatestCommonFactor(r.numerator, r.denominator);
+        return new Rational(r.numerator / gcf, r.denominator / gcf);
     }
 
     // This following method is NOT static, we'll talk about it next class!
